@@ -1,9 +1,11 @@
+# Import necessary libraries
 import streamlit as st
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 import pickle as pk
 import pandas as pd
+
 # Load best model
 checkpoint_dir = 'ckpt_1_CNN_with_TF_VGG19_with_DataAug'
 best_model = load_model('E://best_model//Animals_CNN_TF_VGG19_epoch_30_ES.h5')
@@ -32,10 +34,13 @@ def predict_image_class(image):
     return predicted_class
 
 # Main Streamlit app
+# Set title of the app
 st.title('Manga vs Classic Art style Image Classifier')
 
+# Allow user to upload an image
 uploaded_image = st.file_uploader("Upload an image", type=['jpg', 'jpeg', 'png'])
 
+# Check if an image is uploaded
 if uploaded_image is not None:
     # Read the image
     file_bytes = np.asarray(bytearray(uploaded_image.read()), dtype=np.uint8)
@@ -44,6 +49,6 @@ if uploaded_image is not None:
     # Display the uploaded image
     st.image(image, caption='Uploaded Image', use_column_width=True)
 
-    # Predict the class
+    # Predict the class of the uploaded image
     predicted_class = predict_image_class(image)
     st.write('Predicted Class:', predicted_class)
